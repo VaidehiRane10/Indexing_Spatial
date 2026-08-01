@@ -1,0 +1,215 @@
+load("@pybind11_bazel//:build_defs.bzl", "pybind_extension", "pybind_library")
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_python//python:defs.bzl", "py_library", "py_test")
+
+package(default_visibility = ["//visibility:private"])
+
+# ========================================
+# Python Package
+# ========================================
+
+py_library(
+    name = "s2geometry_pybind",
+    srcs = ["s2geometry_pybind/__init__.py"],
+    data = [
+        ":s2geometry_bindings",
+    ],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+)
+
+# ========================================
+# C++ Bindings
+# ========================================
+
+pybind_extension(
+    name = "s2geometry_bindings",
+    srcs = ["module.cc"],
+    deps = [
+        ":r1interval_bindings",
+        ":r2point_bindings",
+        ":r2rect_bindings",
+        ":s1angle_bindings",
+        ":s1chord_angle_bindings",
+        ":s1interval_bindings",
+        ":s2cap_bindings",
+        ":s2cell_bindings",
+        ":s2cell_id_bindings",
+        ":s2latlng_bindings",
+        ":s2point_bindings",
+    ],
+)
+
+pybind_library(
+    name = "r1interval_bindings",
+    srcs = ["r1interval_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+    ],
+)
+
+pybind_library(
+    name = "r2point_bindings",
+    srcs = ["r2point_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+    ],
+)
+
+pybind_library(
+    name = "r2rect_bindings",
+    srcs = ["r2rect_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+    ],
+)
+
+pybind_library(
+    name = "s1angle_bindings",
+    srcs = ["s1angle_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+pybind_library(
+    name = "s1chord_angle_bindings",
+    srcs = ["s1chord_angle_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+pybind_library(
+    name = "s1interval_bindings",
+    srcs = ["s1interval_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+pybind_library(
+    name = "s2point_bindings",
+    srcs = ["s2point_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+    ],
+)
+
+pybind_library(
+    name = "s2latlng_bindings",
+    srcs = ["s2latlng_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+pybind_library(
+    name = "s2cell_id_bindings",
+    srcs = ["s2cell_id_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+pybind_library(
+    name = "s2cap_bindings",
+    srcs = ["s2cap_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+    ],
+)
+
+pybind_library(
+    name = "s2cell_bindings",
+    srcs = ["s2cell_bindings.cc"],
+    deps = [
+        "//:s2",
+        "@abseil-cpp//absl/hash",
+        "@abseil-cpp//absl/strings",
+    ],
+)
+
+# ========================================
+# Python Tests
+# ========================================
+
+py_test(
+    name = "r1interval_test",
+    srcs = ["r1interval_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s1angle_test",
+    srcs = ["s1angle_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s1chord_angle_test",
+    srcs = ["s1chord_angle_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "r2point_test",
+    srcs = ["r2point_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "r2rect_test",
+    srcs = ["r2rect_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s1interval_test",
+    srcs = ["s1interval_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s2point_test",
+    srcs = ["s2point_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s2latlng_test",
+    srcs = ["s2latlng_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s2cap_test",
+    srcs = ["s2cap_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s2cell_id_test",
+    srcs = ["s2cell_id_test.py"],
+    deps = [":s2geometry_pybind"],
+)
+
+py_test(
+    name = "s2cell_test",
+    srcs = ["s2cell_test.py"],
+    deps = [":s2geometry_pybind"],
+)
